@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <title>TM</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid pt-5">
+      <div class="row">
+        <div class="col-sm-3">
+          <ul class="list-group">
+            <% terms.forEach(term => { %>
+              <a class="list-group-item list-group-item-action" href="/term/<%- term.name.replace('#','') %>"><%- term.name %> (<%- term.references %>)</a>
+            <% }) %>
+          </ul>
+        </div>
+        <div class="col-sm-9">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th>User</th>
+                <th>Tweet</th>
+                <th>Fw/fr</th>
+                <th>Fw/S</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% tweets.forEach( tweet => { %>
+                <tr>
+                  <td>
+                    <img class="rounded-circle" src="<%- tweet.data.user.profile_image_url_https %>"/>
+                  </td>
+                  <td>
+                    <a href="https://twitter.com/<%- tweet.data.user.screen_name %>" target="_blank">@<%- tweet.data.user.screen_name %></a>
+                  </td>
+                  <td>
+                    <a href="https://twitter.com/<%- tweet.data.user.screen_name %>/status/<%- tweet.data.id_str %>"  target="_blank">
+                      <%- tweet.truncated ? tweet.extended_tweet.full_text : tweet.data.text %>
+                    </a>
+                  </td>
+                  <td><%- (tweet.data.user.followers_count / tweet.data.user.friends_count).toFixed(2); %></td>
+                  <td><%- (tweet.data.user.followers_count / tweet.data.user.statuses_count).toFixed(2); %></td>
+                  <td>
+                    <span class="d-block">S:<%- tweet.data.user.statuses_count %></span>
+                    <span class="d-block">Fw:<%- tweet.data.user.followers_count %> </span>
+                    <span class="d-block">fr: <%- tweet.data.user.friends_count %></span>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6">
+                  <%
+                    offset = parseInt(offset);
+                    limit = parseInt(limit);
+                    count = parseInt(count);
+                  %>
+                  <nav>
+                    <ul class="pagination">
+                      <li class="page-item <%- offset == 0 ? 'disabled' : '' %>">
+                        <a class="page-link" href="?offset=<%- offset - limit %>&limit=<%- limit%>">Previous</a>
+                      </li>
+                      <% for(var i = offset; i < offset + (10 * limit) && i < count ; i += limit) { %>
+                        <li class="page-item"><a class="page-link" href="?offset=<%- i%>&limit=<%- limit%>"><%- i/limit %></a></li>
+                      <% } %>
+                      <li class="page-item <%- offset + limit > count ? 'disabled' : '' %>">
+                        <a class="page-link" href="?offset=<%- offset + limit %>&limit=<%- limit%>" tabindex="-1">Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

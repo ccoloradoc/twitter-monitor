@@ -1,0 +1,28 @@
+version: "2"
+services:
+  portal:
+    build: ./services/app
+    volumes:
+      - ./app:/app
+      - ./data/log/portal:/root/.pm2/logs
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - "80:80"
+  monitor:
+    build: - ./services/monitor
+    volumes:
+      - ./monitor:/monitor
+      - ./data/log/monitor:/root/.pm2/logs
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    # volumes:
+      # - ./data/db:/data/db
+    ports:
+      - "27017:27017"

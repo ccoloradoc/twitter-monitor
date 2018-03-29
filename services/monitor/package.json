@@ -1,0 +1,14 @@
+{
+  "name": "monitor",
+  "version": "1.0.0",
+  "description": "Monitor de flujos de twitter",
+  "main": "monitor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cristian Colorado <cristian@wedevelop.mx>",
+  "license": "ISC",
+  "dependencies": {
+      "commons": "file:../commons"
+  }
+}
