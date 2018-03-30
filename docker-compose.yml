@@ -3,7 +3,7 @@ services:
   portal:
     build: ./services/app
     volumes:
-      - ./app:/app
+      - ./services:/services
       - ./data/log/portal:/root/.pm2/logs
     depends_on:
       - mongo
@@ -12,9 +12,9 @@ services:
     ports:
       - "80:80"
   monitor:
-    build: - ./services/monitor
+    build: ./services/monitor
     volumes:
-      - ./monitor:/monitor
+      - ./services:/services
       - ./data/log/monitor:/root/.pm2/logs
     depends_on:
       - mongo
@@ -22,7 +22,7 @@ services:
       - mongo
   mongo:
     image: mongo
-    # volumes:
-      # - ./data/db:/data/db
+    volumes:
+      - ./data/db/mongo:/data/db
     ports:
       - "27017:27017"

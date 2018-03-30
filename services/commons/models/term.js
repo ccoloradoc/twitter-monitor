@@ -5,7 +5,9 @@ var Schema = mongoose.Schema;
 // create a Tweet
 var TermSchema = new Schema({
   name: String,
-  references: { type: Number, default: 0 }
+  slug: String,
+  references: { type: Number, default: 0 },
+  monitor: { type: Boolean, default: true }
 });
 
 // the schema is useless so far

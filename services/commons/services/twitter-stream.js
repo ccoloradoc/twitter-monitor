@@ -5,14 +5,16 @@ const Tweet = require('../models/tweet');
 const Term = require('../models/term');
 
 function incomeMessage(tweet) {
-  console.log(`<< Stream ${this.term.name} - Incoming @${tweet.user.screen_name} - ${tweet.text}`);
+  let text = tweet.truncated ? tweet.extended_tweet.full_text : tweet.text;
+  let currentTerm = this.termSet.find(term => text.indexOf(term.name) >= 0);
+  console.log(`<< Stream ${currentTerm ? currentTerm.name : 'uknown'} - Incoming @${tweet.user.screen_name} - ${text}`);
+
   // create a new user called chris
   var newTweet = new Tweet({
-    term: this.term.name,
+    term: currentTerm ? currentTerm.name : 'uknown',
     data: tweet
   });
 
-  let _self = this;
   // call the built-in save method to save to the database
   newTweet.save(function(err) {
     if (err) {
@@ -20,17 +22,28 @@ function incomeMessage(tweet) {
       throw err;
     }
 
-    Term.findByIdAndUpdate(_self.term._id, { $inc: { references: 1 }}, function(err, data){});
+    if(currentTerm)
+      Term.findByIdAndUpdate(currentTerm._id, { $inc: { references: 1 }}, function(err, data){});
+    else
+      Term.findOneAndUpdate({"term" : "uknown" }, { $inc: { references: 1 }}, function(err, data){});
+
     console.log('  + Stored');
   });
 }
 
 class TwitterStream {
-  constructor(term) {
-    this.term = term;
-    console.log(`>> Creating stream ${term.name}`)
-    this.stream = T.stream('statuses/filter', { track: term.name, language: 'es' });
+  constructor(termSet) {
+    this.termSet = termSet;
+    this.track = termSet
+      .filter(term => term.monitor )
+      .map(term => term.name.replace('@',''));
+
+    console.log(`>> Creating stream ${this.track}`);
+    
+    this.stream = T.stream('statuses/filter', { track: this.track, language: 'es' });
     this.stream.on('tweet', incomeMessage.bind(this));
+    this.stream.on('parser-error', msg => console.log(`>> Parse Error ${msg}`));
+    this.stream.on('error', msg => console.log(`>> Error ${msg}`));
   }
 }
 
