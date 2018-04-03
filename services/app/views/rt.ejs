@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <title>TM</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      .scrollable {
+        max-height: calc(100vh - 6rem);
+        overflow-y: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <% include ./partials/nav %>
+    
+    <div class="container-fluid pt-3">
+      <div class="row">
+        <div class="col-sm-4">
+          <ul class="list-group scrollable">
+            <a class="list-group-item list-group-item-action text-light bg-dark" href="/">TwitterStream</a>
+            <% terms.forEach((term, index) => { %>
+              <a class="list-group-item list-group-item-action <%- term.name === selected.name ? 'active' : '' %>" href="/rt/<%- term.name ? term.name.replace('#','') : 'NA'%>">
+                <%- index + 1 %>) <span class=""><%- term.name %></span>
+                <span class=" float-right badge <%- term.rt > 0 ? 'badge-success' : 'badge-secondary' %> "><%- term.rt %></span>
+              </a>
+            <% }) %>
+          </ul>
+        </div>
+        <div class="col-sm-8">
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th></th>
+                <th>User</th>
+                <th>Fw/fr</th>
+                <th>Fw/S</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%
+                rts.forEach( rt => {
+                %>
+                <tr>
+                  <td>
+                    <span class="d-block badge badge-info">U:<%- rt.users.length%> %></span>
+                  </td>
+                  <td>
+                    <span class="d-block font-weight-light text-justify" style="font-size: 14px;"><%- rt.tweet.truncated ? rt.tweet.extended_tweet.full_text : rt.tweet.text %></span>
+                  </td>
+                  <td>
+                    <ul>
+                    <% rt.users.forEach(user => { %>
+                      <li><a href="https://twitter.com/<%- user.screen_name%>"><%- user.screen_name%></a></li>
+                    <% }) %>
+                    </ul>
+                  </td>
+
+                </tr>
+              <% }) %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6">
+                  <%
+                    offset = parseInt(offset);
+                    limit = parseInt(limit);
+                    count = parseInt(count);
+                  %>
+                  <nav>
+                    <ul class="pagination">
+                      <li class="page-item <%- offset == 0 ? 'disabled' : '' %>">
+                        <a class="page-link" href="?offset=<%- offset - limit %>&limit=<%- limit%>">Previous</a>
+                      </li>
+                      <% for(var i = offset; i < offset + (10 * limit) && i < count ; i += limit) { %>
+                        <li class="page-item"><a class="page-link" href="?offset=<%- i%>&limit=<%- limit%>"><%- i/limit %></a></li>
+                      <% } %>
+                      <li class="page-item <%- offset + limit > count ? 'disabled' : '' %>">
+                        <a class="page-link" href="?offset=<%- offset + limit %>&limit=<%- limit%>" tabindex="-1">Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">
+    <img alt="TwitterStream" style="max-height: 35px;" src="http://upload.wikimedia.org/wikipedia/en/2/2d/SRU-Logo-Transparent.png"> <span>TwitterStream</span>
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <% if(selected) { %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%- selected.name%>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" target="_blank" href="https://contactolegislativo.com/camara-de-diputados/LXIII/<%- selected.slug %>">Contacto Legislativo</a>
+            <a class="dropdown-item" href="/tw/<%- selected.name%>">Tweets</a>
+            <a class="dropdown-item" href="/rt/<%- selected.name%>">RT</a>
+          </div>
+        </li>
+      <% }%>
+      <li class="nav-item active">
+        <a class="nav-link" href="/nosotros">Nosotros</a>
+      </li>
+    </ul>
+  </div>
+</nav>

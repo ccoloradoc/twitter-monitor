@@ -1,0 +1,5 @@
+[
+  { "name": "@srrobo", "monitor": true },
+  { "name": "@clegislativomx", "monitor": true },
+  { "name": "@camara", "monitor": true }
+]

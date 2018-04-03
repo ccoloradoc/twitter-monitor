@@ -4,9 +4,10 @@ var Schema = mongoose.Schema;
 
 // create a Tweet
 var TermSchema = new Schema({
-  name: String,
+  name: { type: String, unique : true, required : true, dropDups: true },
   slug: String,
-  references: { type: Number, default: 0 },
+  tweet: { type: Number, default: 0 },
+  rt: { type: Number, default: 0 },
   monitor: { type: Boolean, default: true }
 });
 

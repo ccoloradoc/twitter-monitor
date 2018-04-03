@@ -11,14 +11,24 @@
     </style>
   </head>
   <body>
-    <% include ./partials/home_nav %>
+    <% include ./partials/nav %>
     <div class="container-fluid pt-3">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-3">
+          <ul class="list-group scrollable">
+            <a class="list-group-item list-group-item-action text-light bg-dark" href="/">TwitterStream</a>
+            <% terms.forEach((term, index) => { %>
+              <a class="list-group-item list-group-item-action <%- term.name === selected.name ? 'active' : '' %>" href="/tw/<%- term.name ? term.name.replace('#','') : 'NA'%>">
+                <%- index + 1 %>) <span class=""><%- term.name %></span>
+                <span class=" float-right badge <%- term.tweet > 0 ? 'badge-success' : 'badge-secondary' %> "><%- term.tweet %></span>
+              </a>
+            <% }) %>
+          </ul>
+        </div>
+        <div class="col-sm-9">
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
-                <th>Term</th>
                 <th></th>
                 <th>User</th>
                 <th>Fw/fr</th>
@@ -32,11 +42,6 @@
                   let created = new Date(tweet.data.user.created_at);
                 %>
                 <tr>
-                  <td class="text-center">
-                    <span class="d-block font-weight-bold"><%- tweet.term %></span>
-                    <a href="/tw/<%- tweet.term%>" class="font-weight-bold"><i class="fa fa-twitter"></i></a>
-                    <a href="/rt/<%- tweet.term%>" class="font-weight-bold"><i class="fa fa-retweet"></i></a>
-                  </td>
                   <td>
                     <img class="rounded" src="<%- tweet.data.user.profile_image_url_https %>"/>
                   </td>
@@ -45,12 +50,6 @@
                     <a href="https://twitter.com/<%- tweet.data.user.screen_name %>" target="_blank" class="font-weight-bold">@<%- tweet.data.user.screen_name %></a> &nbsp;
                     <span class="font-italic" style="font-size: small;"><i class="fa fa-calendar-o" aria-hidden="true"></i> <%- created.getMonth() + 1 %>/<%- created.getFullYear() %></span> &nbsp;
                     <a href="https://twitter.com/<%- tweet.data.user.screen_name %>/status/<%- tweet.data.id_str %>" target="_blank"><i class="fa fa-external-link"></i></a>
-                    <% if(tweet.data.in_reply_to_screen_name) { %>
-                      <a href="https://twitter.com/<%- tweet.data.in_reply_to_screen_name %>/status/<%- tweet.data.in_reply_to_status_id_str %>" target="_blank" class="font-weight-bold"><i class="fa fa-reply"></i></a>
-                    <% } %>
-                    <% if(tweet.data.is_quote_status) { %>
-                      <a href="<%- tweet.data.entities.urls[0].expanded_url || tweet.data.extended_tweet.entities.urls[0].expanded_url %>" target="_blank" class="font-weight-bold"><i class="fa fa-comment"></i></a>
-                    <% } %>
                     <span class="d-block font-weight-light text-justify" style="font-size: 14px;"><%- tweet.data.truncated ? tweet.data.extended_tweet.full_text : tweet.data.text %></span>
                   </td>
                   <td>
@@ -62,9 +61,9 @@
                     <%- tweet.quality.user.profile_compexity.toFixed(2) %>
                   </td>
                   <td>
-                    <span class="d-block badge <%- tweet.data.user.followers_count > 1000 ? 'badge-success': (tweet.data.user.followers_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-group"></i>&nbsp;<%- tweet.data.user.followers_count %></span>
-                    <span class="d-block badge <%- tweet.data.user.statuses_count > 1000 ? 'badge-success': (tweet.data.user.statuses_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-comment-o"></i>&nbsp;<%- tweet.data.user.statuses_count %></span>
-                    <span class="d-block badge <%- tweet.data.user.friends_count > 1000 ? 'badge-success': (tweet.data.user.friends_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-eye"></i>&nbsp;<%- tweet.data.user.friends_count %></span>
+                    <span class="d-block badge <%- tweet.data.user.statuses_count > 1000 ? 'badge-success': (tweet.data.user.statuses_count > 500 ? 'badge-info':'badge-light') %>">S:<%- tweet.data.user.statuses_count %></span>
+                    <span class="d-block badge <%- tweet.data.user.followers_count > 1000 ? 'badge-success': (tweet.data.user.followers_count > 500 ? 'badge-info':'badge-light') %>">Fw:<%- tweet.data.user.followers_count %></span>
+                    <span class="d-block badge <%- tweet.data.user.friends_count > 1000 ? 'badge-success': (tweet.data.user.friends_count > 500 ? 'badge-info':'badge-light') %>">fr: <%- tweet.data.user.friends_count %></span>
                   </td>
                 </tr>
               <% }) %>
@@ -83,7 +82,7 @@
                         <a class="page-link" href="?offset=<%- offset - limit %>&limit=<%- limit%>">Previous</a>
                       </li>
                       <% for(var i = offset; i < offset + (10 * limit) && i < count ; i += limit) { %>
-                        <li class="page-item"><a class="page-link" href="?offset=<%- i%>&limit=<%- limit%>"><%- (i/limit) + 1 %></a></li>
+                        <li class="page-item"><a class="page-link" href="?offset=<%- i%>&limit=<%- limit%>"><%- i/limit %></a></li>
                       <% } %>
                       <li class="page-item <%- offset + limit > count ? 'disabled' : '' %>">
                         <a class="page-link" href="?offset=<%- offset + limit %>&limit=<%- limit%>" tabindex="-1">Next</a>

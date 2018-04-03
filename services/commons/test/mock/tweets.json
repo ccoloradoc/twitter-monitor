@@ -1,0 +1,30 @@
+{
+  "tweet": {
+    "user": {
+      "name": "Cristian Colorado",
+      "screen_name": "srrobo10",
+      "verified": false,
+      "profile_image_url_https": "profile.png",
+      "profile_background_image_url_https": "bg.png",
+      "has_description": "Cutie",
+      "created_at": "Wed Feb 21 22:48:48 +0000 2018",
+      "followers_count": "1000",
+      "friends_count": "900",
+      "statuses_count": "10000"
+    },
+    "entities": {
+      "hashtags": [],
+      "user_mentions": [],
+      "in_reply_to_status_id": null
+    },
+    "text": "@srrobo This is a mock tweet",
+    "truncated": false
+  },
+  "retweet": {
+    "user": {
+      "screen_name": "xxx"
+    },
+    "text": "RT @srrobo This is a mock tweet",
+    "truncated": false
+  }
+}
