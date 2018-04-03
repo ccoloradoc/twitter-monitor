@@ -26,6 +26,15 @@ router.get('/', function(req, res, next) {
 
 });
 
+router.get('/terms', (req, res, next) => {
+  monitorService.findAllTerms(500, { tweet: -1 }).then(terms => {
+    res.render('terms', {
+      terms: terms,
+      selected: { name: '' }
+    });
+  });
+})
+
 router.get('/tw/:term', function(req, res, next) {
   const offset = req.query.offset || default_offset;
   const limit = req.query.limit || default_limit;
