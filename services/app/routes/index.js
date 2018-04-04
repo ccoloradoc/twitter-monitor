@@ -1,11 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const MonitorService = require('commons').MonitorService;
-
 const monitorService = new MonitorService();
 const default_offset = 0;
 const default_limit = 10;
 const default_createdAt = 86400000;
+
+const Twit = require('twit');
+const T = new Twit({
+  "consumer_key":         "cYCSRy020QBnTrbKV099ounxC",
+  "consumer_secret":      "7DsflCNOdZO4BCpjDGZtwbjxaagZslHBxF4qxss0hpmpQ7k6Mr",
+  "access_token":         "4729180717-B49yZ6rDEni2hb926L53uv7ChbLF6yWr22MHjI5",
+  "access_token_secret":  "i05xVP4XvLENV4RPKLJyEmO6ERdCNTFMYfE2xn2MJKY3T",
+  "timeout_ms":           60000
+});
 
 router.get('/', function(req, res, next) {
   const offset = req.query.offset || default_offset;
@@ -31,6 +39,29 @@ router.get('/terms', (req, res, next) => {
     res.render('terms', {
       terms: terms,
       selected: { name: '' }
+    });
+  });
+})
+
+router.get('/friends', (req, res, next) => {
+  const cursor = req.query.cursor || -1;
+  const count = req.query.count || 50;
+
+  T.get('friends/list', {screen_name: 'clegislativomx', count: count, cursor: cursor }, (err, data, response) => {
+    let friends = data.users.map(item => {
+      return item.screen_name;
+    })
+
+    T.get('friendships/lookup', { screen_name: friends }, (err, friends, response) => {
+      let status = {};
+      friends.forEach(friend => { status[friend.screen_name] = friend; });
+      res.render('friends', {
+        users: data.users,
+        status: status,
+        count: count,
+        next_cursor: data.next_cursor,
+        next_cursor_str: data.next_cursor_str
+      });
     });
   });
 })

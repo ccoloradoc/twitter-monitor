@@ -1,0 +1,93 @@
+<html>
+  <head>
+    <title>TM</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      .scrollable {
+        max-height: calc(100vh - 6rem);
+        overflow-y: scroll;
+      }
+    </style>
+    <script>
+      let status = <%- JSON.stringify(status) %>;
+      let users = <%- JSON.stringify(users) %>;
+    </script>
+  </head>
+  <body>
+    <% include ./partials/home_nav %>
+    <div class="container-fluid pt-3">
+      <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th colspan="2">User</th>
+                <th>Fw</th>
+                <th>Latest Tweet</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%
+                users.forEach( user => {
+                  let created = new Date(user.created_at);
+                %>
+                <tr class="c<%- user.screen_name %>">
+                  <td>
+                    <img class="rounded" src="<%- user.profile_image_url_https %>"/>
+                  </td>
+                  <td>
+                    <span class="font-weight-bold"><%- user.name %></span>
+                    <a href="https://twitter.com/<%- user.screen_name %>" target="_blank" class="font-weight-bold">@<%- user.screen_name %></a> &nbsp;
+                    <span class="font-italic" style="font-size: small;"><i class="fa fa-calendar-o" aria-hidden="true"></i> <%- created.getMonth() + 1 %>/<%- created.getFullYear() %></span> &nbsp;
+                    <span class="d-block" style="font-size: small;"><%- user.location %></span>
+                    <span class="d-block"><%- user.description %></span>
+                  </td>
+                  <td>
+                    <span class="followed_by font-italic d-none text-danger" style="font-size: small;"><i class="fa fa-heart" aria-hidden="true"></i></span> &nbsp;
+                  </td>
+                  <td>
+                    <span class="d-block"><%- user.status.text %></span>
+                  </td>
+                  <td>
+                    <span class="d-block badge <%- user.followers_count > 1000 ? 'badge-success': (user.followers_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-group"></i>&nbsp;<%- user.followers_count %></span>
+                    <span class="d-block badge <%- user.statuses_count > 1000 ? 'badge-success': (user.statuses_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-comment-o"></i>&nbsp;<%- user.statuses_count %></span>
+                    <span class="d-block badge <%- user.friends_count > 1000 ? 'badge-success': (user.friends_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-eye"></i>&nbsp;<%- user.friends_count %></span>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6">
+                  <nav>
+                    <ul class="pagination">
+                      <li class="page-item">
+                        <a class="page-link" href="?count=<%- count %>&cursor=<%- next_cursor%>" tabindex="-1">Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    users.forEach(user => {
+      let userStatus = status[user.screen_name];
+      if(status && userStatus.connections.find(connection => connection === 'followed_by')) {
+          let dom = document.querySelector(`.c${user.screen_name} .followed_by`);
+          dom.className = dom.className.replace('d-none', '');
+      }
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
