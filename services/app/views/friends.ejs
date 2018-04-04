@@ -45,15 +45,15 @@
                     <span class="d-block"><%- user.description %></span>
                   </td>
                   <td>
-                    <span class="followed_by font-italic d-none text-danger" style="font-size: small;"><i class="fa fa-heart" aria-hidden="true"></i></span> &nbsp;
+                    <span class="followed_by font-italic d-none text-danger" style="font-size: x-large;"><i class="fa fa-heart" aria-hidden="true"></i></span> &nbsp;
                   </td>
                   <td>
                     <span class="d-block"><%- user.status.text %></span>
                   </td>
                   <td>
-                    <span class="d-block badge <%- user.followers_count > 1000 ? 'badge-success': (user.followers_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-group"></i>&nbsp;<%- user.followers_count %></span>
-                    <span class="d-block badge <%- user.statuses_count > 1000 ? 'badge-success': (user.statuses_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-comment-o"></i>&nbsp;<%- user.statuses_count %></span>
-                    <span class="d-block badge <%- user.friends_count > 1000 ? 'badge-success': (user.friends_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-eye"></i>&nbsp;<%- user.friends_count %></span>
+                    <span class="mb-1 d-block badge <%- user.followers_count > 1000 ? 'badge-success': (user.followers_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-group"></i>&nbsp;<%- user.followers_count %></span>
+                    <span class="mb-1 d-block badge <%- user.statuses_count > 1000 ? 'badge-success': (user.statuses_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-comment-o"></i>&nbsp;<%- user.statuses_count %></span>
+                    <span class="mb-1 d-block badge <%- user.friends_count > 1000 ? 'badge-success': (user.friends_count > 500 ? 'badge-info':'badge-light') %>"><i class="fa fa-eye"></i>&nbsp;<%- user.friends_count %></span>
                   </td>
                 </tr>
               <% }) %>
