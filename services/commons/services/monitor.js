@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Tweet  = require('../models/tweet');
 const Retweet  = require('../models/retweet');
 const Term  = require('../models/term');
+const Deputy  = require('../models/deputy');
 const DAY_MS = 86400000;
 
 class MonitorService {
@@ -104,13 +105,28 @@ class MonitorService {
     });
   }
 
-  batchInsert(terms) {
-    Term.insertMany(terms, { ordered: true }, (err, docs) => {
-      if (err) console.log(err);
-      console.log('Inserted', docs.length);
+  findAllDeputies(filter) {
+    return new Promise((resolve, reject) => {
+      Deputy
+      .find(filter)
+      .sort({ "lastPublishedDate": 1, "displayName": 1 })
+      .exec((err, deputies) => {
+        if (err) reject(err);
+        resolve(deputies);
+      });
     });
   }
 
+  batchInsert(Model, items) {
+    Model.insertMany(items, { ordered: true }, (err, docs) => {
+      if (err) console.log(err);
+      console.log('Inserted', docs.length ? docs.length: 'uknown' );
+    });
+  }
+
+  close() {
+    mongoose.connection.close();
+  }
 }
 
 module.exports = MonitorService;

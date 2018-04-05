@@ -1,10 +1,11 @@
 const Term = require('commons').Term;
-const deputies = require('./data/terms');
+const Deputy = require('commons').Deputy;
+const deputies = require('./data/deputies');
 const MonitorService = require('commons').MonitorService;
 const monitorService = new MonitorService();
 
 Term.remove({}).then(() => {
-  let terms = deputies.map(deputy => {
+  let terms = deputies.filter(deputy => deputy.twitter !== null ).map(deputy => {
     return {
       slug: deputy.slug,
       name: deputy.twitter,
@@ -13,7 +14,11 @@ Term.remove({}).then(() => {
   });
 
   terms.push({ slug: 'uknown', name: 'uknown', monitor: false });
-  terms.push({ slug: 'diputado', name: 'diputado', monitor: false });
+  terms.push({ slug: 'diputado', name: 'diputado', monitor: true });
+  console.log(`Attempt to save ${terms.length}`)
+  monitorService.batchInsert(Term, terms);
+});
 
-  monitorService.batchInsert(terms);
+Deputy.remove({}).then(() => {
+  monitorService.batchInsert(Deputy, deputies);
 });

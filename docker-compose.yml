@@ -20,9 +20,19 @@ services:
       - mongo
     links:
       - mongo
+  cron:
+    build: ./services/cron
+    volumes:
+      # - ./services/cron/log:/var/log
+      - ./services:/services
+      # - ./services/cron/crontabs:/var/spool/cron/crontabs
+    depends_on:
+      - mongo
+    links:
+      - mongo
   mongo:
     image: mongo
-    volumes:
-      - ./data/db/mongo:/data/db
+    # volumes:
+      # - ./data/db/mongo:/data/db
     ports:
       - "27017:27017"

@@ -1,7 +1,7 @@
 # create a file named Dockerfile
 FROM node:7-alpine
 
-RUN apk add --no-cache git nano curl && npm install pm2  webpack -g
+RUN apk add --no-cache git nano curl && npm install pm2 -g
 
 WORKDIR /services/monitor
 
