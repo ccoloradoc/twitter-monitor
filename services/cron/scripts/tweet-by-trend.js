@@ -14,7 +14,7 @@ twitterAPI.trends('23424900').then((trends) => {
   let hashtag = nonWeekdayTrend ? nonWeekdayTrend.name : '#SomosCiudadanosResponsables';
   let tweet = `¿Sabes que diputado te representa? #ContactoLegislativo te ayuda a ubicar y visualizar su desempeño de manera sencilla ${hashtag} https://contactolegislativo.com`;
   console.log(`>> ${tweet}`);
-  // twitterAPI.tweet(tweet).then(() => {
-  //   console.log('>> Tweet successfull');
-  // });
+  twitterAPI.tweet(tweet).then(() => {
+    console.log('>> Tweet successfull');
+  });
 });
