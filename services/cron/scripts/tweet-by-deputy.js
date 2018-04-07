@@ -1,8 +1,11 @@
 const frequency = require('./data/frequency');
 const MonitorService = require('commons').MonitorService;
 const Twitter = require('commons').Twitter;
+const Facebook = require('commons').Facebook;
+
 const monitorService = new MonitorService();
 const twitterAPI = new Twitter();
+const fb = new Facebook();
 
 console.log(`>> ${new Date()} - Searching for today deputy`);
 
@@ -43,6 +46,11 @@ monitorService.findAllDeputies({ type: 'Mayoría Relativa' })
         console.log(`>> Tweet successfull & deputy saved`);
         monitorService.close();
       });
+
+      fb.post(tweet).then(post => {
+        console.log(`>> Post published successfully ${post.id}`);
+      });
+
     });
   })
   .catch(err => console.log(err));
