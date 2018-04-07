@@ -3,11 +3,12 @@ const { Facebook } = require('fb');
 const fb = new Facebook();
 
 class FacebookApi {
-  post(content) {
+  post(message, link) {
     return new Promise((resolve, reject) => {
       // console.log(`${config.fb.page_id} - ${config.fb.access_token}`)
       fb.api(`${config.fb.page_id}/feed`, 'post', {
-        message: content,
+        message: message,
+        link: link,
         access_token: config.fb.access_token
       }, (res) => {
         if(!res || res.error) reject(res);
