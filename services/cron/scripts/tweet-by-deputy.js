@@ -48,7 +48,7 @@ monitorService.findAllDeputies({ type: 'Mayoría Relativa' })
         monitorService.close();
       });
 
-      fb.post(tweet, link).then(post => {
+      fb.post(message, link).then(post => {
         console.log(`>> Post published successfully ${post.id}`);
       });
 
