@@ -37,8 +37,8 @@ monitorService.findAllDeputies({ type: 'Mayoría Relativa' })
     let distribution = frequencyDistribution(deputy, frequency);
     let position = quote(distribution);
     let account = deputy.twitter ? `@${deputy.twitter}`: '';
-    let tweet = `Te presentamos a ${deputy.displayName} ${account} diputado del distrito ${deputy.area} de #${deputy.state.replace(' ', '')} #${deputy.party.toUpperCase()}, con ${deputy.attendances}/165 asistencias ${position}, conoce mas sobre tu diputado en #ContactoLegislativo`;
-    let message = `Te presentamos a ${deputy.displayName} diputado del distrito ${deputy.area} de #${deputy.state.replace(' ', '')} #${deputy.party.toUpperCase()}, con ${deputy.attendances}/165 asistencias ${position}, conoce mas sobre tu diputado en #ContactoLegislativo`;
+    let tweet = `Te presentamos a ${deputy.displayName} ${account} diputado del distrito ${deputy.area} de #${deputy.state.replace(/\s/g,'')} #${deputy.party.toUpperCase()}, con ${deputy.attendances}/165 asistencias ${position}, conoce mas sobre tu diputado en #ContactoLegislativo`;
+    let message = `Te presentamos a ${deputy.displayName} diputado del distrito ${deputy.area} de #${deputy.state.replace(/\s/g,'')} #${deputy.party.toUpperCase()}, con ${deputy.attendances}/165 asistencias ${position}, conoce mas sobre tu diputado en #ContactoLegislativo`;
     let link = `https://contactolegislativo.com/camara-de-diputados/LXIII/${deputy.slug}`;
 
     console.log(`>> ${message} ${link}`);
