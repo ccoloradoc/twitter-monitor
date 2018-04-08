@@ -49,7 +49,7 @@ monitorService.findAllDeputies({ type: 'Mayoría Relativa' })
       });
 
       fb.post(message, link).then(post => {
-        console.log(`>> Post published successfully ${post.id}`);
+        console.log(`>> Post published successfully ${post.data.id}`);
       });
 
     });
