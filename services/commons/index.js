@@ -12,6 +12,7 @@ var _deputy = require('./models/deputy');
 
 var _monitor = require('./services/monitor');
 var _twitterStream = require('./services/twitter-stream');
+var _userStream = require('./services/user-stream');
 var _twitter = require('./services/twitter');
 
 exports.default = {
@@ -22,6 +23,7 @@ exports.default = {
   Deputy: _deputy,
   MonitorService: _monitor,
   TwitterStream: _twitterStream,
+  UserStream: _userStream,
   Twitter: _twitter
 }
 
@@ -33,4 +35,5 @@ exports.Deputy = _deputy;
 
 exports.MonitorService = _monitor;
 exports.TwitterStream = _twitterStream;
+exports.UserStream = _userStream;
 exports.Twitter = _twitter;

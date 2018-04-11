@@ -45,6 +45,30 @@ class Twitter {
       })
     });
   }
+
+  directMessage(recipent, text) {
+    let event = {
+      type: 'message_create',
+      message_create: {
+        target: {
+          recipient_id: recipent
+        },
+        message_data: {
+          text: text
+        }
+      }
+    };
+
+    return new Promise((resolve, reject) => {
+      T.post('direct_messages/events/new', { event: event }, (err, data, response) => {
+        if(data.errors) {
+          reject(data);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
 }
 
 module.exports = Twitter;
