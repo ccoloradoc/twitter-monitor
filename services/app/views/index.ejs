@@ -30,7 +30,7 @@
               <%
                 tweets.forEach( tweet => {
                   let created = new Date(tweet.data.user.created_at);
-                  let tweetDate = new Date(tweet.data.timestamp_ms);
+                  let tweetDate = new Date(tweet.data.timestamp_ms - 5*3600000); // CST = UTC - 5hrs
                 %>
                 <tr>
                   <td class="text-center">
@@ -48,7 +48,7 @@
                       <span class="font-weight-bold"><%- tweet.data.user.name %></span>
                     </a>
                     <span class="text-secondary" style="font-size: 14px;">@<%- tweet.data.user.screen_name %></span>
-                    &nbsp;| 
+                    &nbsp;|
                     <span class="text-secondary" style="font-size: 14px;">
                       <i class="fa fa-clock-o"></i>
                       <%- tweetDate.getHours() + ':' + tweetDate.getMinutes() + 'hrs' %>
