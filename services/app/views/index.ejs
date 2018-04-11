@@ -30,6 +30,7 @@
               <%
                 tweets.forEach( tweet => {
                   let created = new Date(tweet.data.user.created_at);
+                  let tweetDate = new Date(tweet.data.timestamp_ms - 5*3600000); // CST = UTC - 5hrs
                 %>
                 <tr>
                   <td class="text-center">
@@ -39,19 +40,29 @@
                   </td>
                   <td>
                     <img class="rounded" src="<%- tweet.data.user.profile_image_url_https %>"/>
+                    <span class="font-italic" style="font-size: x-small;"><i class="fa fa-calendar-o" aria-hidden="true"></i> <%- created.getMonth() + 1 %>/<%- created.getFullYear() %></span>
                   </td>
                   <td>
-                    <span class="font-weight-bold"><%- tweet.data.user.name %></span>
-                    <a href="https://twitter.com/<%- tweet.data.user.screen_name %>" target="_blank" class="font-weight-bold">@<%- tweet.data.user.screen_name %></a> &nbsp;
-                    <span class="font-italic" style="font-size: small;"><i class="fa fa-calendar-o" aria-hidden="true"></i> <%- created.getMonth() + 1 %>/<%- created.getFullYear() %></span> &nbsp;
-                    <a href="https://twitter.com/<%- tweet.data.user.screen_name %>/status/<%- tweet.data.id_str %>" target="_blank"><i class="fa fa-external-link"></i></a>
-                    <% if(tweet.data.in_reply_to_screen_name) { %>
-                      <a href="https://twitter.com/<%- tweet.data.in_reply_to_screen_name %>/status/<%- tweet.data.in_reply_to_status_id_str %>" target="_blank" class="font-weight-bold"><i class="fa fa-reply"></i></a>
-                    <% } %>
-                    <% if(tweet.data.is_quote_status) { %>
-                      <a href="<%- tweet.data.entities.urls[0].expanded_url || tweet.data.extended_tweet.entities.urls[0].expanded_url %>" target="_blank" class="font-weight-bold"><i class="fa fa-comment"></i></a>
-                    <% } %>
-                    <span class="d-block font-weight-light text-justify" style="font-size: 14px;"><%- tweet.data.truncated ? tweet.data.extended_tweet.full_text : tweet.data.text %></span>
+                    <i class="fa <%- tweet.data.user.following ? 'fa-circle text-success' : (tweet.data.user.follow_request_sent ? 'fa-circle text-warning': 'fa-circle text-danger')%>"></i>
+                    <a href="https://twitter.com/<%- tweet.data.user.screen_name %>" target="_blank">
+                      <span class="font-weight-bold"><%- tweet.data.user.name %></span>
+                    </a>
+                    <span class="text-secondary" style="font-size: 14px;">@<%- tweet.data.user.screen_name %></span>
+                    &nbsp;|
+                    <span class="text-secondary" style="font-size: 14px;">
+                      <i class="fa fa-clock-o"></i>
+                      <%- tweetDate.getHours() + ':' + tweetDate.getMinutes() + 'hrs' %>
+                    </span>
+                    <span class="float-right">
+                      <a href="https://twitter.com/<%- tweet.data.user.screen_name %>/status/<%- tweet.data.id_str %>" target="_blank"><i class="fa fa-external-link"></i></a>
+                      <% if(tweet.data.in_reply_to_screen_name) { %>
+                        <a href="https://twitter.com/<%- tweet.data.in_reply_to_screen_name %>/status/<%- tweet.data.in_reply_to_status_id_str %>" target="_blank" class="font-weight-bold"><i class="fa fa-reply"></i></a>
+                      <% } %>
+                      <% if(tweet.data.is_quote_status) { %>
+                        <a href="<%- tweet.data.entities.urls[0].expanded_url || tweet.data.extended_tweet.entities.urls[0].expanded_url %>" target="_blank" class="font-weight-bold"><i class="fa fa-comment"></i></a>
+                      <% } %>
+                    </span>
+                    <span class="d-block font-weight-light text-justify pt-2" style="font-size: 12px;"><%- tweet.data.truncated ? tweet.data.extended_tweet.full_text : tweet.data.text %></span>
                   </td>
                   <td>
                     <%- (tweet.data.user.followers_count / tweet.data.user.friends_count).toFixed(2); %> |

@@ -14,6 +14,7 @@ var _monitor = require('./services/monitor');
 var _twitterStream = require('./services/twitter-stream');
 var _userStream = require('./services/user-stream');
 var _twitter = require('./services/twitter');
+var _facebook = require('./services/facebook');
 
 exports.default = {
   Term: _term,
@@ -24,7 +25,8 @@ exports.default = {
   MonitorService: _monitor,
   TwitterStream: _twitterStream,
   UserStream: _userStream,
-  Twitter: _twitter
+  Twitter: _twitter,
+  Facebook: _facebook
 }
 
 exports.Term = _term;
@@ -37,3 +39,4 @@ exports.MonitorService = _monitor;
 exports.TwitterStream = _twitterStream;
 exports.UserStream = _userStream;
 exports.Twitter = _twitter;
+exports.Facebook = _facebook;

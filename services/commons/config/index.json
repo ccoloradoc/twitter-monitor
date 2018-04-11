@@ -5,5 +5,9 @@
     "access_token":         "4729180717-B49yZ6rDEni2hb926L53uv7ChbLF6yWr22MHjI5",
     "access_token_secret":  "i05xVP4XvLENV4RPKLJyEmO6ERdCNTFMYfE2xn2MJKY3T",
     "timeout_ms":           60000
+  },
+  "fb": {
+    "page_id": "1798309323755653",
+    "access_token": "EAAC4Ws5CBccBANA3Jh28fTsCpYlotZBZBf5zlOZBG2uhp6OZASqbAK54QoumINutOLijMjJwlcGRd53CUEiOsCEFdaxpcZBngfjncIvUHttcFWPjy1p6wtc3f1E1LJVlLZB343K1p0lTpzdrOW2qZBkI8CemTS3ZCIlCIG90o1ZAZA9gZDZD"
   }
 }

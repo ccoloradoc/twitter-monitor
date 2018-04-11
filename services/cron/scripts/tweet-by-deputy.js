@@ -1,8 +1,11 @@
 const frequency = require('./data/frequency');
 const MonitorService = require('commons').MonitorService;
 const Twitter = require('commons').Twitter;
+const Facebook = require('commons').Facebook;
+
 const monitorService = new MonitorService();
 const twitterAPI = new Twitter();
+const fb = new Facebook();
 
 console.log(`>> ${new Date()} - Searching for today deputy`);
 
@@ -34,15 +37,22 @@ monitorService.findAllDeputies({ type: 'Mayoría Relativa' })
     let distribution = frequencyDistribution(deputy, frequency);
     let position = quote(distribution);
     let account = deputy.twitter ? `@${deputy.twitter}`: '';
-    let tweet = `Te presentamos a ${deputy.displayName} ${account} diputado del distrito ${deputy.area} de #${deputy.state.replace(' ', '')} #${deputy.party.toUpperCase()}, con ${deputy.attendances}/165 asistencias ${position}, conoce mas sobre tu diputado en #ContactoLegislativo https://contactolegislativo.com/camara-de-diputados/LXIII/${deputy.slug}`;
+    let tweet = `Te presentamos a ${deputy.displayName} ${account} diputado del distrito ${deputy.area} de #${deputy.state.replace(/\s/g,'')} #${deputy.party.toUpperCase()}, con ${deputy.attendances}/165 asistencias ${position}, conoce mas sobre tu diputado en #ContactoLegislativo`;
+    let message = `Te presentamos a ${deputy.displayName} diputado del distrito ${deputy.area} de #${deputy.state.replace(/\s/g,'')} #${deputy.party.toUpperCase()}, con ${deputy.attendances}/165 asistencias ${position}, conoce mas sobre tu diputado en #ContactoLegislativo`;
+    let link = `https://contactolegislativo.com/camara-de-diputados/LXIII/${deputy.slug}`;
 
-    console.log(`>> ${tweet}`);
-    twitterAPI.tweet(tweet).then(() => {
+    console.log(`>> ${message} ${link}`);
+    twitterAPI.tweet(`${tweet} ${link}`).then(() => {
       deputy.lastPublishedDate = new Date();
       deputy.save(() => {
         console.log(`>> Tweet successfull & deputy saved`);
         monitorService.close();
       });
+
+      fb.post(message, link).then(post => {
+        console.log(`>> Post published successfully ${post.data.id}`);
+      });
+
     });
   })
   .catch(err => console.log(err));
