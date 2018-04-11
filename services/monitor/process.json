@@ -8,5 +8,9 @@
         "PORT": "80",
         "IP_ADDRESS": "0.0.0.0"
       }
+    }, {
+      "name": "followers",
+      "script": "followers.js",
+      "watch": false
     }]
 }
