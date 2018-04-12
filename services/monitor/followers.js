@@ -32,7 +32,7 @@ userStream.start();
 userStream.on('follow', (data) => {
   // If not us
   if(data.source.screen_name !== 'clegislativomx') {
-    console.log(`>> Sending message...`)
+    console.log(`>> Sending message [${data.source.id}]...`)
     twitterService.directMessage(data.source.id, welcomeText).then(data =>{
       console.log(`>> DM Sent successfully to @${data.event.message_create.target.recipient_id}`)
     })
