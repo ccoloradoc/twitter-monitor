@@ -33,5 +33,6 @@ userStream.on('follow', (data) => {
   console.log(`>> Sending message...`)
   twitterService.directMessage(data.source.id, welcomeText).then(data =>{
     console.log(`>> DM Sent successfully to @${data.event.message_create.target.recipient_id}`)
-  });
+  })
+  .catch(err => console.log(err));
 });
