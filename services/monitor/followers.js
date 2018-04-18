@@ -30,8 +30,20 @@ let userStream = new UserStream();
 userStream.start();
 
 userStream.on('follow', (data) => {
-  console.log(`>> Sending message...`)
-  twitterService.directMessage(data.source.id, welcomeText).then(data =>{
-    console.log(`>> DM Sent successfully to @${data.event.message_create.target.recipient_id}`)
-  });
+  // If not us
+  if(data.source.screen_name !== 'clegislativomx') {
+    setTimeout(function(){
+      console.log(`>> Sending message [${data.source.id}]...`)
+      twitterService.directMessage(data.source.id, welcomeText).then(data =>{
+        console.log(`>> DM Sent successfully to @${data.event.message_create.target.recipient_id}`)
+      })
+      .catch(err => {
+        console.log(`>> There was an error!!! Contacting [@${data.target.screen_name}]...`)
+        let errorText = `Dude, no le pudimos enviar mensaje a @${data.source.screen_name}, te lo encargamos pls.`;
+        twitterService.directMessage(data.target.id, errorText).then(data =>{
+          console.log(`>> DM Sent successfully to @${data.event.message_create.target.recipient_id}`)
+        });
+      });
+    }, 5000);
+  }
 });

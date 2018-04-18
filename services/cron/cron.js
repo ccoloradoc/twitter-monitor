@@ -5,10 +5,10 @@ console.log(`>> ${new Date()} Service up`);
 
 
 let cronjobs = [
-  { name: 'weekday', schedule: '00 20 09 * * *', command: 'node scripts/tweet-happy-weekday.js >> log/happy.log'},
-  { name: 'deputy1', schedule: '00 23 12 * * *', command: 'node scripts/tweet-by-deputy.js >> log/deputy.log'},
-  { name: 'trend', schedule: '00 35 15 * * *', command: 'node scripts/tweet-by-trend.js >> log/trend.log'},
-  { name: 'deputy2', schedule: '00 10 18 * * *', command: 'node scripts/tweet-by-deputy.js >> log/deputy.log'}
+  { name: 'weekday', schedule: '00 11 08 * * *', command: 'node scripts/tweet-happy-weekday.js >> log/happy.log'},
+  { name: 'deputy1', schedule: '00 43 09 * * *', command: 'node scripts/tweet-by-deputy.js >> log/deputy.log'},
+  { name: 'deputy2', schedule: '00 10 16 * * *', command: 'node scripts/tweet-by-deputy.js >> log/deputy.log'},
+  { name: 'trend', schedule: '00 35 21 * * *', command: 'node scripts/tweet-by-trend.js >> log/trend.log'}
 ];
 
 cronjobs.forEach(cronjob => {

@@ -17,11 +17,11 @@ class UserStream {
   }
 
   onFollow(data) {
-    console.log(`>> follow @${data.source.screen_name} has FOLLOWED us`)
+    console.log(`>> follow @${data.source.screen_name} has FOLLOWED @${data.target.screen_name}`)
   }
 
   onUnfollow(data) {
-    console.log(`>> unfollow @${data.source.screen_name} has UNFOLLOWED us`)
+    console.log(`>> unfollow @${data.source.screen_name} has UNFOLLOWED @${data.target.screen_name}`)
   }
 
 }
