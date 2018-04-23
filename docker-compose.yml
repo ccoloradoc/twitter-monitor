@@ -23,16 +23,16 @@ services:
   cron:
     build: ./services/cron
     volumes:
-      # - ./services/cron/log:/var/log
       - ./services:/services
-      # - ./services/cron/crontabs:/var/spool/cron/crontabs
     depends_on:
       - mongo
     links:
       - mongo
   mongo:
     image: mongo
-    # volumes:
-      # - ./data/db/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME:monitor
+      - MONGO_INITDB_ROOT_PASSWORD:m0n1t0r
+      - MONGO_INITDB_DATABASE:monitor
     ports:
       - "27017:27017"

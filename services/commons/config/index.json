@@ -1,5 +1,18 @@
 {
   "mongo": {
+    "uri": "mongodb://mongo/monitor",
+    "options": {
+      "db": { "native_parser": true },
+      "server": { "poolSize": 5 },
+      "user": "monitor",
+      "pass": "m0n1t0r",
+      "promiseLibrary": "global.Promise",
+      "auth": {
+         "authdb": "admin"
+      }
+    }
+  },
+  "twitter": {
     "consumer_key":         "cYCSRy020QBnTrbKV099ounxC",
     "consumer_secret":      "7DsflCNOdZO4BCpjDGZtwbjxaagZslHBxF4qxss0hpmpQ7k6Mr",
     "access_token":         "4729180717-B49yZ6rDEni2hb926L53uv7ChbLF6yWr22MHjI5",

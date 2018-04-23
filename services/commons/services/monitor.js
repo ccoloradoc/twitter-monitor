@@ -1,3 +1,4 @@
+const config = require('../config');
 const mongoose = require('mongoose');
 const Tweet  = require('../models/tweet');
 const Retweet  = require('../models/retweet');
@@ -7,7 +8,7 @@ const DAY_MS = 86400000;
 
 class MonitorService {
   constructor() {
-    mongoose.connect('mongodb://mongo/monitor');
+    mongoose.connect(config.mongo.uri, config.mongo.options);
   }
 
   findAllTerms(limit, sort) {
