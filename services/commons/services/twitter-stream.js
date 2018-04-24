@@ -1,6 +1,6 @@
 const Twit = require('twit')
 const config = require('../config');
-const T = new Twit(config.mongo);
+const T = new Twit(config.twitter);
 const Tweet = require('../models/tweet');
 const Retweet = require('../models/retweet');
 const Term = require('../models/term');
