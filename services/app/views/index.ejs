@@ -84,6 +84,7 @@
               <tr>
                 <td colspan="6">
                   <%
+                    followers = parseInt(followers);
                     offset = parseInt(offset);
                     limit = parseInt(limit);
                     count = parseInt(count);
@@ -91,13 +92,13 @@
                   <nav>
                     <ul class="pagination">
                       <li class="page-item <%- offset == 0 ? 'disabled' : '' %>">
-                        <a class="page-link" href="?offset=<%- offset - limit %>&limit=<%- limit%>">Previous</a>
+                        <a class="page-link" href="?offset=<%- offset - limit %>&limit=<%- limit%>&followers=<%- followers%>">Previous</a>
                       </li>
                       <% for(var i = offset; i < offset + (10 * limit) && i < count ; i += limit) { %>
-                        <li class="page-item"><a class="page-link" href="?offset=<%- i%>&limit=<%- limit%>"><%- (i/limit) + 1 %></a></li>
+                        <li class="page-item"><a class="page-link" href="?offset=<%- i%>&limit=<%- limit%>&followers=<%- followers%>"><%- (i/limit) + 1 %></a></li>
                       <% } %>
                       <li class="page-item <%- offset + limit > count ? 'disabled' : '' %>">
-                        <a class="page-link" href="?offset=<%- offset + limit %>&limit=<%- limit%>" tabindex="-1">Next</a>
+                        <a class="page-link" href="?offset=<%- offset + limit %>&limit=<%- limit%>&followers=<%- followers%>" tabindex="-1">Next</a>
                       </li>
                     </ul>
                   </nav>

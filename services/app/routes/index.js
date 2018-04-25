@@ -6,6 +6,7 @@ const Twitter = require('commons').Twitter;
 const monitorService = new MonitorService();
 const twitterService = new Twitter();
 
+const default_followers = 50;
 const default_offset = 0;
 const default_limit = 10;
 const default_createdAt = 86400000;
@@ -13,15 +14,17 @@ const default_createdAt = 86400000;
 router.get('/', function(req, res, next) {
   const offset = req.query.offset || default_offset;
   const limit = req.query.limit || default_limit;
+  const followers = req.query.followers || default_followers;
   const createdAt = req.query.createdAt || Date.now() - default_createdAt;
   Promise.all([
-    monitorService.findAllTweet(createdAt, parseInt(offset), parseInt(limit)),
-    monitorService.countAllTweet(createdAt)
+    monitorService.findAllTweet(createdAt, followers, parseInt(offset), parseInt(limit)),
+    monitorService.countAllTweet(createdAt, followers)
   ])
   .then(data => {
     res.render('index', {
       tweets: data[0],
       count: data[1],
+      followers: parseInt(followers),
       offset: parseInt(offset),
       limit: parseInt(limit)
     });

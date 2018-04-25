@@ -24,10 +24,13 @@ class MonitorService {
     });
   }
 
-  findAllTweet(createdAt, offset, limit) {
+  findAllTweet(createdAt, followers, offset, limit) {
     return new Promise((resolve, reject) => {
       Tweet
-      .find({ "data.timestamp_ms": { $gte: createdAt || Date.now() - DAY_MS } })
+      .find({
+        "data.timestamp_ms": { $gte: createdAt || Date.now() - DAY_MS },
+        "data.user.followers_count": { $gte: followers }
+      })
       .skip(offset)
       .limit(limit)
       .sort({ "data.created_at": -1 })
@@ -38,10 +41,13 @@ class MonitorService {
     });
   }
 
-  countAllTweet(createdAt) {
+  countAllTweet(createdAt, followers) {
     return new Promise((resolve, reject) => {
       Tweet
-      .find({ "data.timestamp_ms": { $gte: createdAt || Date.now() - DAY_MS } })
+      .find({
+          "data.timestamp_ms": { $gte: createdAt || Date.now() - DAY_MS },
+          "data.user.followers_count": { $gte: followers }
+        })
       .count()
       .exec((err, count) => {
         if (err) reject(err);
