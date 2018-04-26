@@ -10,7 +10,8 @@ services:
     links:
       - mongo
     ports:
-      - "80:80"
+      - "100:80"
+      # - "80:80"
   monitor:
     build: ./services/monitor
     volumes:
@@ -31,8 +32,8 @@ services:
   mongo:
     image: mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME:monitor
-      - MONGO_INITDB_ROOT_PASSWORD:m0n1t0r
-      - MONGO_INITDB_DATABASE:monitor
+      MONGO_INITDB_ROOT_USERNAME: monitor
+      MONGO_INITDB_ROOT_PASSWORD: m0n1t0r
+      MONGO_INITDB_DATABASE: monitor
     ports:
       - "27017:27017"
