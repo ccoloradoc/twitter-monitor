@@ -3,6 +3,8 @@ const TwitterService = require('commons').Twitter;
 
 const twitterService = new TwitterService();
 
+const ONE_MINUTE = 60000;
+
 console.log('>> Service up')
 
 let welcomeText =
@@ -29,7 +31,7 @@ let userStream = new UserStream();
 
 userStream.start();
 
-userStream.on('follow', (data) => {
+userStream.on('follow', data => {
   // If not us
   if(data.source.screen_name !== 'clegislativomx') {
     setTimeout(function(){
@@ -44,6 +46,6 @@ userStream.on('follow', (data) => {
           console.log(`>> DM Sent successfully to @${data.event.message_create.target.recipient_id}`)
         });
       });
-    }, 5000);
+    }, 5 * ONE_MINUTE);
   }
 });
