@@ -42,7 +42,8 @@ monitorService.findAllDeputies({ type: 'Mayoría Relativa' })
     let link = `https://contactolegislativo.com/camara-de-diputados/LXIII/${deputy.slug}`;
 
     console.log(`>> ${message} ${link}`);
-    twitterAPI.tweet(`${tweet} ${link}`).then(() => {
+    twitterAPI.tweet(`${tweet} ${link}`)
+    .then(() => {
       deputy.lastPublishedDate = new Date();
       deputy.save(() => {
         console.log(`>> Tweet successfull & deputy saved`);
@@ -53,6 +54,16 @@ monitorService.findAllDeputies({ type: 'Mayoría Relativa' })
         console.log(`>> Post published successfully ${post.data.id}`);
       });
 
+    })
+    .catch(err => {
+      // 187 - Status Duplicated
+      if(err.errors.length > 0 && err.errors[0].code == 187) {
+        deputy.lastPublishedDate = new Date();
+        deputy.save(() => {
+          console.log(`>> Tweet successfull & deputy saved`);
+          monitorService.close();
+        });
+      }
     });
   })
   .catch(err => console.log(err));
